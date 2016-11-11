@@ -1,7 +1,6 @@
 *.pyc
 *~
 __pycache__
-myenv
 ideas
 /static
 .DS_Store

@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Subtask
 from .serializers import SubtaskSerializer
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 import zipfile
 #import subprocess
 
@@ -23,14 +23,19 @@ class Exportlist(APIView):
 		return Response(serializer.data)
 
 
-def GetData(request, tid, res):
-	entrytid = tid#request.GET.get(id=tid)
-	entryres = res#request.GET.get('nop')
-	entrylist = list(Subtask.objects.filter(taskid=entrytid))
-	entry = entrylist[0]
-	entry.result=entryres
-	entry.status="C"
-	entry.save()
+class UpdateRecords(APIView):
+	def get(self, request, tid, res):
+		entrytid = tid#request.GET.get(id=tid)
+		entryres = res#request.GET.get('nop')
+		entrylist = list(Subtask.objects.filter(taskid=entrytid))
+		entry = entrylist[0]
+		entry.result=entryres
+		entry.status="C"
+		entry.save()
+		response = JsonResponse({'tid':str(entrytid),'conv':'True'})
+		return response
+		'''response = HttpResponse("{'tid':"+str(entrytid)+"'conv':'True'}")'''
+		
 
 def Download(request):
     zip_file = zipfile.ZipFile('setup_primenos.zip','r')
