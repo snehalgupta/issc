@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Subtask
 from .serializers import SubtaskSerializer
-import subprocess
+#import subprocess
 
 # Create your views here.
 
@@ -16,8 +16,8 @@ class Exportlist(APIView):
 		i.status="A"
 		i.save()
 		
-		subprocess.call(["python3","../../test.py"])
-		serializer = SubtaskSerializer(i)
+		#subprocess.call(["python3","../../test.py"])
+		serializer = SubtaskSerializer(i)#returns json string data
 		return Response(serializer.data)
 
 
