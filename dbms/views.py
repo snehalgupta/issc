@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Subtask
 from .serializers import SubtaskSerializer
+from django.http import HttpResponse
 #import subprocess
 
 # Create your views here.
@@ -29,3 +30,11 @@ def GetData(request, tid, res):
 	entry.result=entryres
 	entry.status="C"
 	entry.save()
+
+def Download(request):
+    zip_file = open("q2.py", 'r')
+    response = HttpResponse(zip_file, content_type='application/force-download')
+    response['Content-Disposition'] = 'attachment; filename="%s"' % 'q2.py'
+    return response
+	
+	
