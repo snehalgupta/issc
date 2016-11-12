@@ -6,14 +6,28 @@ import zipfile
 
 # Create your views here.
 
+
+
 def ExportSubtask(request):
 	subtasks = Subtask.objects.filter(status="NA")
-	i = subtasks[0]
-	#i.status="A"
-	#i.save()
-	response = JsonResponse({'prid':str(i.projectid),'taskid':str(i.taskid),'task':str(i.task)})
-	return response
+	if len(subtasks)==0:
+		response = JsonResponse({'alltasks':'done'})
+		return response
+	else:
+		i = subtasks[0]
+		#i.status="TA"
+		#i.save()
+		response = JsonResponse({'prid':str(i.projectid),'taskid':str(i.taskid),'task':str(i.task)})
+		return response
 
+'''def CnfmDelivery(request, tid):
+	deltask=Subtask.objects.filter(taskid=tid)
+	if deltask.status=="NA":
+		deltask.status="A"
+		deltask.save()
+	else:
+		response = JsonResponse({'alltasks':'done'})
+		return response'''
 
 def GetData(request, tid, res):
 	entrytid = tid
