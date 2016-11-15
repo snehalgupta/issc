@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import include,url
 from django.contrib import admin
 
-
+#test change in code
 urlpatterns=[
        url(r'^admin/',admin.site.urls),
        url(r'',include('dbms.urls'))
