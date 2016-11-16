@@ -15,8 +15,8 @@ def ExportSubtask(request):
 		return response
 	else:
 		i = subtasks[0]
-		#i.status="TA"
-		#i.save()
+		i.status="TA"
+		i.save()
 		response = JsonResponse({'prid':str(i.projectid),'taskid':str(i.taskid),'task':str(i.task)})
 		return response
 
@@ -46,5 +46,15 @@ def Download(request):
     response = HttpResponse(zip_file, content_type='application/force-download')
     response['Content-Disposition'] = 'attachment; filename="%s"' % 'setup_primenos.zip'
     return response
+
+def Change(request, prid, tid):
+    pid=prid
+    id=tid
+    subtasks=Subtasks.objects.filter(prid=pid, taskid=id)
+    i=subtasks[0]
+    i.status='A'
+    i.save()
+    #response = JsonResponse({'prid':str(i.projectid),'taskid':str(i.taskid),'task':str(i.task)})
+	#return response
 	
 	
