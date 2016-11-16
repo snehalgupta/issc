@@ -50,7 +50,7 @@ def Download(request):
 def Change(request, prid, tid):
     pid=prid
     id=tid
-    subtasks=Subtasks.objects.filter(prid=pid, taskid=id)
+    subtasks=list(Subtask.objects.filter(projectid=pid, taskid=id))
     i=subtasks[0]
     i.status='A'
     i.save()
