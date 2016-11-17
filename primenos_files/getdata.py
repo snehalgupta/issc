@@ -32,11 +32,11 @@ def gettask():
 	file.write(":")
 	file.write(dict['task'])
 	file.close()
-	'''
-	cnfm=urlopen(url+"/igot/"+str(dict['taskid']))
+	
+	cnfm=urlopen(url+"/igot/primenos/"+str(dict['taskid']))
 
-	print(url+"/igot/"+str(dict['taskid']))
-	'''
+	#print(url+"/igot/primenos/"+str(dict['taskid']))
+
 
 	statfile = open("Projectfiles/projstat.txt", "w")
 

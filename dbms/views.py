@@ -68,10 +68,11 @@ def ExportSubtask(request, prid):
 		response = JsonResponse({'alltasks':'done'})
 		return response'''
 
-def GetData(request, tid, res):
+def GetData(request, tid, res, prid):
 	entrytid = tid
+	entrypid = prid
 	entryres = res
-	entrylist = list(Subtask.objects.filter(taskid=entrytid))
+	entrylist = list(Subtask.objects.filter(projectid=entrypid,taskid=entrytid))
 	entry = entrylist[0]
 	entry.result=entryres
 	entry.status="C"
