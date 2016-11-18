@@ -12,18 +12,20 @@ class Subtask(models.Model):
       result=models.CharField(max_length=10, default='0')   
       def __str__(self):
           return self.taskid
-class Projects(models.Model):
+class Project(models.Model):
 	projectid=models.CharField(max_length=20,default=None)
 	project_name=models.CharField(max_length=20,default=None)
 	project_desc=models.TextField(default=None)
 	project_type=models.CharField(max_length=20,default=None)
+	#userprofiles=models.ForeignKey("UserProfile",blank=True,null=True, related_name="Users")
 	def __unicode__(self):
 		return str(self.projectid) 
 
 
 class UserProfile(models.Model):  
     user = models.OneToOneField(User)  
-    projects=models.ForeignKey("Projects")
+    #projects=models.ForeignKey("Project", related_name="Users")
+    projects = models.ManyToManyField(Project)
 
     def __str__(self):  
           return "%s's profile" % self.user  
