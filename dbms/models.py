@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 
 # Create your models here.
 
@@ -10,4 +12,28 @@ class Subtask(models.Model):
       result=models.CharField(max_length=10, default='0')   
       def __str__(self):
           return self.taskid
+class Projects(models.Model):
+	projectid=models.CharField(max_length=20,default=None)
+	project_name=models.CharField(max_length=20,default=None)
+	project_desc=models.TextField(default=None)
+	project_type=models.CharField(max_length=20,default=None)
+	def __unicode__(self):
+		return str(self.projectid) 
+
+
+class UserProfile(models.Model):  
+    user = models.OneToOneField(User)  
+    projects=models.ForeignKey("Projects")
+
+    def __str__(self):  
+          return "%s's profile" % self.user  
+
+def create_user_profile(sender, instance, created, **kwargs):  
+    if created:  
+       profile, created = UserProfile.objects.get_or_create(user=instance)  
+
+post_save.connect(create_user_profile, sender=User) 
+
+#in settings.py
+
        
