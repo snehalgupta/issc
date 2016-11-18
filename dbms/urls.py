@@ -4,7 +4,7 @@ from . import views,models
 
 
 urlpatterns=[
-       #url(r'^$',include(dbms.urls)
+       url(r'^register',views.user_new,name='register'),
        url(r'^export/(?P<prid>\D+)/$',views.ExportSubtask),
        url(r'^done/(?P<prid>\D+)/(?P<tid>\d+)/(?P<res>\d+)/$',views.GetData),
        url(r'^download/',views.Download),

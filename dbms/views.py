@@ -3,6 +3,11 @@ from .models import Subtask
 from django.http import HttpResponse,JsonResponse
 import zipfile
 import subprocess
+from django.shortcuts import render,redirect
+from django.contrib.auth import authenticate,login
+#from django.views import View
+#from django.views.generic import View
+from .forms import UserForm
 
 def allot_time():
 	file = open('./dbms/time.txt', 'r')
@@ -117,4 +122,52 @@ def Change(request, prid, tid):
 		file.write(a)
 	file.close()
 	i.save()
+"""class UserFormView(View):
+	form_class=Userform
+	template_name='dbms/studentregister.html'
+	def get(self,request):
+		form=self.form_class(None)
+		return render(request,self.template_name,{'form':form})
+	def post(self,request):
+		form=self.form_class(request.POST)
+		if form.is_valid():
+			user=form.save(commit=False)
+			username=form.cleaned_data['username']
+			password=form.cleaned_data['password']
+			email=form.cleaned_data['email']
+			projects_taken=form.cleaned_dat['projects_taken']
+			user.set_password(password)
+			user.save()
+			user=authenticate(username=username,password=password)
+			if user is not None:
+				if user.is_active:
+					login(request,user)
+					return redirect('admin')
+		return render(request,self.template_name,{'form':form})"""
+
+def user_new(request):
+	if request.method=="POST":
+		form=UserForm(request.POST)
+		if form.is_valid():
+			user=form.save(commit=False)
+			username=form.cleaned_data['username']
+			password=form.cleaned_data['password']
+			email=form.cleaned_data['email']
+			#projects_taken=form.cleaned_dat['projects_taken']
+			user.set_password(password)
+			user.save()
+			user=authenticate(username=username,password=password)
+			if user is not None:
+				if user.is_active:
+					login(request,user)
+					return redirect('register')
+			"""post.author=request.user
+			post.published_date=timezone.now()
+			post.save()
+			return redirect('post_detail')"""
+	else:
+		form=UserForm()
+	return render(request,'./dbms/studentregister.html',{'form':form})
+
+
 
