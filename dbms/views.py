@@ -7,7 +7,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login
 #from django.views import View
 #from django.views.generic import View
-from .forms import UserForm#,Projectmgmt
+from .forms import UserForm,Projectmgmt
 
 def allot_time():
 	file = open('./dbms/time.txt', 'r')
@@ -172,10 +172,12 @@ def projectmgmt(request):
 			project=form.save(commit=False)
 			project.user=form.cleaned_data['user']
 			project.projects=form.cleaned_data['projects']
+			project.save()
+			
 			file=open('./dbms/userstat.txt','w')
 			file.write(project.projects)
 			file.close()
-			project.save()
+			
 			return redirect('download_file')
 	else:
 		form=Projectmgmt()

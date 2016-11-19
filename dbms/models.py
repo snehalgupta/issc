@@ -18,7 +18,7 @@ class Project(models.Model):
 	project_desc=models.TextField(default=None)
 	project_type=models.CharField(max_length=20,default=None)
 	#userprofiles=models.ForeignKey("UserProfile",blank=True,null=True, related_name="Users")
-	def __unicode__(self):
+	def __str__(self):
 		return str(self.projectid) 
 
 
