@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IISC</title>
+    <link rel="stylesheet" href="{% static 'css/material.min.css' %}">
+    <script src="{% static 'css/material.min.js' %}"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+    <!-- Uses a header that scrolls with the text, rather than staying locked at the top -->
+    
+      <main class="mdl-layout__content">
+        <div class="page-content">
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header
+            mdl-layout--fixed-tabs">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title"><h4>PROJECTS MANAGER</h4></span>
+    </div>
+
+    </div>
+    <form action="/projectmgmt" method="POST">{% csrf_token %}
+            <center><div class="mdl-textfield mdl-js-textfield">
+              <br><h4>Fill up the fields</h4></div></center>
+              <center><div class="mdl-textfield mdl-js-textfield">
+              <input class="mdl-textfield__input" type="text" id="sample1" name="user">
+                <label class="mdl-textfield__label" for="sample1">Username<sup>*</sup></label>
+            </div></center>
+             <center><div class="mdl-textfield mdl-js-textfield">
+             <select name="projects" multiple>
+             <option value="primenos">primenos</option>
+             <option value="localmin">localmin</option>
+             </select>
+             </div></center>
+           
+              * - required fields<br><br>
+
+      <center><button class="mdl-button mdl-js-button mdl-js-ripple-effect" type="submit">
+      DONE!
+      </button></center>
+      </form>
+      </div>
+      </main>
+    
+</body>
+</html>

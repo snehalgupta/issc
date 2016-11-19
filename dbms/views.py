@@ -7,7 +7,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login
 #from django.views import View
 #from django.views.generic import View
-from .forms import UserForm
+from .forms import UserForm#,Projectmgmt
 
 def allot_time():
 	file = open('./dbms/time.txt', 'r')
@@ -160,14 +160,31 @@ def user_new(request):
 			if user is not None:
 				if user.is_active:
 					login(request,user)
-					return redirect('register')
-			"""post.author=request.user
-			post.published_date=timezone.now()
-			post.save()
-			return redirect('post_detail')"""
+					return redirect('projectmgmt')
 	else:
 		form=UserForm()
 	return render(request,'./dbms/studentregister.html',{'form':form})
 
+def projectmgmt(request):
+	if request.method=="POST":
+		form=Projectmgmt(request.POST)
+		if form.is_valid():
+			project=form.save(commit=False)
+			project.user=form.cleaned_data['user']
+			project.projects=form.cleaned_data['projects']
+			file=open('./dbms/userstat.txt','w')
+			file.write(project.projects)
+			file.close()
+			project.save()
+			return redirect('download_file')
+	else:
+		form=Projectmgmt()
+	return render(request,'./dbms/projectmgmt.html',{'form':form})
+
+def download_file(request):
+	file1 = open('./dbms/userstat.txt','r')
+	response = HttpResponse(file1, content_type='application/force-download')
+	response['Content-Disposition'] = 'attachment; filename="%s"' % './dbms/userstat.txt'
+	return response
 
 

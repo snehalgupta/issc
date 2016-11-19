@@ -7,4 +7,7 @@ class UserForm(forms.ModelForm):
 		model=User
 		fields=['username','email','password']
 
-
+class Projectmgmt(forms.ModelForm):
+	class Meta:
+		model=UserProfile
+		fields=['user','projects']
