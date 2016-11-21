@@ -3,6 +3,7 @@ from django.conf.urls import include,url
 from . import views,models
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
+from .views import ProjectM
 
 
 urlpatterns=[
@@ -14,7 +15,7 @@ urlpatterns=[
        url(r'^done/(?P<prid>\D+)/(?P<tid>\d+)/(?P<res>\d+)/$',views.GetData),
        url(r'^download/',views.Download),
        url(r'^igot/(?P<prid>\D+)/(?P<tid>\d+)/$',views.Change),
-       url(r'^projectmgmt',views.projectmgmt,name='projectmgmt'),
+       url(r'^projectmgmt',ProjectM.as_view(),name='projectmgmt'),
        url(r'^download_file',views.download_file,name='download_file')
 
 ]

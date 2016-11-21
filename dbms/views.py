@@ -3,10 +3,10 @@ from .models import Subtask
 from django.http import HttpResponse,JsonResponse
 import zipfile
 import subprocess
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,render_to_response
 from django.contrib.auth import authenticate,login
 #from django.views import View
-#from django.views.generic import View
+from django.views.generic import FormView
 from .forms import UserForm,Projectmgmt
 
 def allot_time():
@@ -166,22 +166,26 @@ def user_new(request):
 	return render(request,'./dbms/studentregister.html',{'form':form})
 
 def projectmgmt(request):
-	if request.method=="POST":
+	if request.method=='POST':
 		form=Projectmgmt(request.POST)
 		if form.is_valid():
 			project=form.save(commit=False)
-			project.user=form.cleaned_data['user']
-			project.projects=form.cleaned_data['projects']
+			project.user=request.user
 			project.save()
-			
-			file=open('./dbms/userstat.txt','w')
-			file.write(project.projects)
-			file.close()
-			
-			return redirect('download_file')
+			form.save()
 	else:
 		form=Projectmgmt()
-	return render(request,'./dbms/projectmgmt.html',{'form':form})
+	return render(request,'./dbms/projectmgmt.html',{"form":form})
+
+class ProjectM(FormView):
+	template_name='./dbms/projectmgmt.html'
+	success_url='/projectmgmt'
+	form_class=Projectmgmt
+	
+	def form_valid(self,form):
+		user.projects=form.projects
+		return HttpResponse("Sweet")
+
 
 def download_file(request):
 	file1 = open('./dbms/userstat.txt','r')
