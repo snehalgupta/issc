@@ -1,5 +1,5 @@
 import datetime
-from .models import Subtask
+from .models import Subtask,Project,UserProfile
 from django.http import HttpResponse,JsonResponse
 import zipfile
 import subprocess
@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate,login
 #from django.views import View
 from django.views.generic import FormView
 from .forms import UserForm,Projectmgmt
+from django.contrib.auth.models import User
 
 def allot_time():
 	file = open('./dbms/time.txt', 'r')
@@ -160,31 +161,36 @@ def user_new(request):
 			if user is not None:
 				if user.is_active:
 					login(request,user)
-					return redirect('projectmgmt')
+					return redirect('home')
 	else:
 		form=UserForm()
 	return render(request,'./dbms/studentregister.html',{'form':form})
 
-def projectmgmt(request):
-	if request.method=='POST':
-		form=Projectmgmt(request.POST)
-		if form.is_valid():
-			project=form.save(commit=False)
-			project.user=request.user
-			project.save()
-			form.save()
-	else:
+def addproject(request):
+	projectslist=Project.objects.all()
+	projectid=request.POST.get('dropdown1')
+	if request.method == 'GET':
 		form=Projectmgmt()
-	return render(request,'./dbms/projectmgmt.html',{"form":form})
-
-class ProjectM(FormView):
-	template_name='./dbms/projectmgmt.html'
-	success_url='/projectmgmt'
-	form_class=Projectmgmt
+	else:
+		u=UserProfile.objects.get(user=request.user)
+		a1 = Project.objects.filter(projectid=projectid)[0]
+		u.projects.add(a1)
+		return redirect('home')
+	return render(request,'./dbms/projectmgmt.html',{'form':form, 'projectslist':projectslist})
 	
-	def form_valid(self,form):
-		user.projects=form.projects
-		return HttpResponse("Sweet")
+def delproject(request):
+	projectslist=Project.objects.all()
+	projectid=request.POST.get('dropdown1')
+	if request.method == 'GET':
+		form=Projectmgmt()
+	else:
+		u=UserProfile.objects.get(user=request.user)
+		a1 = Project.objects.filter(projectid=projectid)[0]
+		u.projects.remove(a1)
+		return redirect('home')
+	return render(request,'./dbms/projectmgmt1.html',{'form':form, 'projectslist':projectslist})
+	
+
 
 
 def download_file(request):

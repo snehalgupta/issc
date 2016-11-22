@@ -15,8 +15,8 @@ class UserForm(forms.ModelForm):
 class Projectmgmt(forms.ModelForm):
 	error_css_class='error'
 	#projects=forms.ModelMultipleChoiceField(queryset=Project.objects.all(),widget=forms.SelectMultiple())
-	projects=forms.MultipleChoiceField(choices=PROJECTS,widget=forms.SelectMultiple())
+	#projects=forms.MultipleChoiceField(choices=PROJECTS,widget=forms.SelectMultiple())
 	class Meta:
 		model=UserProfile
 		
-		exclude=['user']
+		fields=['projects']

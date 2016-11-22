@@ -10,24 +10,17 @@
     {% if user.is_authenticated %}
       Hi {{ user.username }}!
       <a href="{% url 'logout' %}">logout</a>
-<form action="/projectmgmt" method="post"> {% csrf_token %}
-   
-   <h1>{{ user.username }} Welcome to your profile page</h1>
-   <div class="fieldWrapper">
-    {{ form.projects.errors }}
-   <label for="projects">Projects</label>
-    {{ form.projects }}
-     
-    </div>
-<button class="mdl-button mdl-js-button mdl-js-ripple-effect" type="submit">
-      SUBMIT!
-      </button>
+ <h1>{{ user.username }} welcome to your profile page</h1>
+        <h2>{{ user.userprofile.user}}</h2>
+        
+        <br/>{% for area in user.userprofile.projects.all %}{{ area.project_name }}{{area.project_desc}}<br/>{% endfor %}
 </form>
       
     {% else %}
-      <a href="{% url 'login' %}">login</a>
-      <a href="{% url 'register' %}">Create User</a>
-      <a href="{% url 'projectmgmt' %}">User Profile</a>
+
+      <a href="{% url 'login' %}">login</a><br>
+      <a href="{% url 'register' %}">Create User</a><br>
+      
     {% endif %}
   </header>
   <hr>

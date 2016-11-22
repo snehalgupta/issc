@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 LOGIN_REDIRECT_URL = 'home'
+AUTH_PROFILE_MODULE = 'dbms.UserProfile'
 
 
 # Application definition

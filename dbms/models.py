@@ -13,19 +13,19 @@ class Subtask(models.Model):
       def __str__(self):
           return self.taskid
 class Project(models.Model):
-	projectid=models.CharField(max_length=20,default=None)
+	projectid=models.CharField(max_length=20,default=None)#,primary_key=True)
 	project_name=models.CharField(max_length=20,default=None)
 	project_desc=models.TextField(default=None)
 	project_type=models.CharField(max_length=20,default=None)
 	#userprofiles=models.ForeignKey("UserProfile",blank=True,null=True, related_name="Users")
 	def __str__(self):
-		return str(self.projectid) 
+		return self.projectid
 
 
 class UserProfile(models.Model):  
     user = models.OneToOneField(User)  
     #projects=models.ForeignKey("Project", related_name="Users")
-    projects = models.ManyToManyField(Project)
+    projects = models.ManyToManyField(Project, blank=True, null=True)
 
     def __str__(self):  
           return "%s's profile" % self.user  
