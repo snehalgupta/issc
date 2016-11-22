@@ -3,4 +3,5 @@
 __pycache__
 ideas
 /static
+db.sqlite3
 .DS_Store

@@ -175,7 +175,14 @@ def addproject(request):
 		u=UserProfile.objects.get(user=request.user)
 		a1 = Project.objects.filter(projectid=projectid)[0]
 		u.projects.add(a1)
+		file1=open('./dbms/userstat.txt','w')
+		for project in u.projects.all():
+			file1.write(str(u.user)+"\n")
+			file1.write(project.projectid+"-"+project.project_name+"\n")
+		file1.close()
+		
 		return redirect('home')
+		
 	return render(request,'./dbms/projectmgmt.html',{'form':form, 'projectslist':projectslist})
 	
 def delproject(request):
@@ -187,6 +194,11 @@ def delproject(request):
 		u=UserProfile.objects.get(user=request.user)
 		a1 = Project.objects.filter(projectid=projectid)[0]
 		u.projects.remove(a1)
+		file1=open('./dbms/userstat.txt','w')
+		for project in u.projects.all():
+			file1.write(str(u.user)+"\n")
+			file1.write(project.projectid+"-"+project.project_name+"\n")
+		file1.close()
 		return redirect('home')
 	return render(request,'./dbms/projectmgmt1.html',{'form':form, 'projectslist':projectslist})
 	
