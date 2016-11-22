@@ -4,7 +4,7 @@ import subprocess
 count=0
 cnfm=True
 while (cnfm and count<15):
-	file = open("Projectfiles/result.txt", "r")
+	file = open("result.txt", "r")
 
 	s=file.read()
 
@@ -15,7 +15,7 @@ while (cnfm and count<15):
 	print("Uploading T Id"+tid+"...")
 
 	#url="http://snehalgupta.pythonanywhere.com/done/"+str(tid)+"/"+str(res)
-	url="http://127.0.0.1:8000/primenos/done/"+str(tid)+"/"+str(res)
+	url="http://127.0.0.1:8000/primenos/done/"+str(tid)+"/"+str(res)+"/"
 
 	#print(url)
 

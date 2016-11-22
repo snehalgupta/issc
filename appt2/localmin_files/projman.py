@@ -2,11 +2,13 @@ def runproj()
 
 	import main,up,getdata
 
-	file=open('primenos_files/projstat.txt','r')
+	path='localmin_files/'
+
+	file=open(path_to_files+"projstat.txt",'r')
 	l2=file.readlines()
 	l=l2[0]
 	file.close()
-	file1=open('primenos_files/task.txt','r')
+	file1=open(path_to_files+"task.txt",'r')
 	l1=file1.read()
 	file1.close()
 
@@ -29,13 +31,13 @@ def runproj()
 
 
 	if uploaded=='F':
-		up.upload()
+		up.upload(path)
 		#subprocess.call(["python3", "primenos_files/up.py"])
 
 	elif havtask:
-		main.dotask()
+		main.dotask(path)
 		#subprocess.call(["python3", "primenos_files/main.py"])
 
 	else:
-		getdata.gettask()
+		getdata.gettask(path)
 		#subprocess.call(["python3", "primenos_files/getdata.py"])

@@ -3,9 +3,9 @@
 from math import sqrt
 #import subprocess
 
-def dotask():
+def dotask(path_to_files):
 
-	file = open("primenos_files/task.txt","r")
+	file = open(path_to_files+"task.txt","r")
 
 	s = file.read()
 
@@ -43,7 +43,7 @@ def dotask():
 		i+=1
 	
 	print("T Id"+tid+"done")
-	statfile = open("primenos_files/projstat.txt", "w")
+	statfile = open(path_to_files+"projstat.txt", "w")
 
 	statfile.write("havF")
 	statfile.write("comT")
@@ -51,7 +51,7 @@ def dotask():
 
 	statfile.close()
 
-	outfile = open("primenos_files/result.txt", "w")
+	outfile = open(path_to_files+"result.txt", "w")
 
 	outfile.write(str(count)+":"+tid)
 

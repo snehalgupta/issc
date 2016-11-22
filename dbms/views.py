@@ -118,3 +118,16 @@ def Change(request, prid, tid):
 	file.close()
 	i.save()
 
+def GetFile(request,prid,tid):
+	entrytid=tid
+	if request.method=='POST':
+		file = request.POST#['file']
+		file1 = open('result_'+tid+'.txt','w+')
+		#file1.write(str(file))
+		file1.write(file['file'])#.decode("utf-8").decode("utf-8"))
+		response = JsonResponse({'tid':str(entrytid),'conv':'True'})
+		return response
+		#return HttpResponse(str(file))
+		#file1 = open('wtest.txt','w')
+		#file1.write(file)
+		#return HttpResponse("sweet")
