@@ -10,10 +10,11 @@
     {% if user.is_authenticated %}
       Hi {{ user.username }}!
       <a href="{% url 'logout' %}">logout</a>
- <h1>{{ user.username }} welcome to your profile page</h1>
-        <h2>{{ user.userprofile.user}}</h2>
+ <h2> welcome to your profile page</h2>
+        <h2>YOUR PROJECTS</h2>
         
-        <br/>{% for area in user.userprofile.projects.all %}{{ area.project_name }}{{area.project_desc}}<br/>{% endfor %}
+        <br/>{% for area in user.userprofile.projects.all %}<b>{{ area.project_name }}</b><br> 
+      {{area.project_desc}}</br><br/>{% endfor %}
 </form>
       
     {% else %}
