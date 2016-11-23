@@ -18,6 +18,6 @@ urlpatterns=[
        #url(r'^projectmgmt',ProjectM.as_view(),name='projectmgmt'),
        url(r'^addproject',views.addproject,name='addproject'),
        url(r'^delproject',views.delproject,name='delproject'),
-       url(r'^download_userfile/(?P<uid>\+)/$',views.download_userdata,name='download_file')
+       url(r'^download_userfile/(?P<uid>[a-zA-Z0-9@.+-_]+)/$',views.download_userdata,name='download_file')
        
 ]

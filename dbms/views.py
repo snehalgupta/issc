@@ -221,7 +221,7 @@ def delproject(request):
 def download_userdata(request,uid):
 	file1 = open('./dbms/userstat_'+uid+'.txt','r')
 	response = HttpResponse(file1, content_type='application/force-download')
-	response['Content-Disposition'] = 'attachment; filename="%s"' % './dbms/userstat.txt'
+	response['Content-Disposition'] = 'attachment; filename="%s"' % "userstat_"+str(uid)+'.txt'
 	return response
 
 
