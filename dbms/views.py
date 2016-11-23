@@ -82,7 +82,7 @@ def GetData(request, tid, res, prid):
 		
 
 def Download(request):
-    zip_file = zipfile.ZipFile('setup_primenos.zip','r')
+    zip_file = open('setup_primenos.zip','r')#zipfile.ZipFile('setup_primenos.zip','r')
     response = HttpResponse(zip_file, content_type='application/force-download')
     response['Content-Disposition'] = 'attachment; filename="%s"' % 'setup_primenos.zip'
     return response
@@ -121,7 +121,12 @@ def Change(request, prid, tid):
 def GetFile(request,prid,tid):
 	entrytid=tid
 	if request.method=='POST':
-		file = request.POST#['file']
+		filename = request.FILES.keys()[0]
+		received_file = request.FILES[filename]
+		with open("Projectfiles/"+received_file.name, 'w') as new_file:
+			new_file.write(received_file.read())
+
+		'''file = request.POST#['file']
 		file1 = open('result_'+tid+'.txt','w+')
 		#file1.write(str(file))
 		file1.write(file['file'])#.decode("utf-8").decode("utf-8"))
@@ -129,5 +134,7 @@ def GetFile(request,prid,tid):
 		return response
 		#return HttpResponse(str(file))
 		#file1 = open('wtest.txt','w')
-		#file1.write(file)
+		#file1.write(file)'''
 		#return HttpResponse("sweet")
+		response = JsonResponse({'tid':str(entrytid),'conv':'True'})
+		return response

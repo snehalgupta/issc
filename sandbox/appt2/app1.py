@@ -1,33 +1,23 @@
 #Load variable from a file. Userstat.txt
 #USerstat.txt has first line as whether user wants to choose more projects, and next lines has names of all projects user has chosen.
 
-
-#We have to create a login function here for the user, else, how would the app know which userfile to download.?
-#For now let's simply ask the user for his username, and not the whole login process
-
-username = input("Please enter you username - ")
-
 import sys
-
-import urllib
-
 from importlib import reload
-url = 'http://127.0.0.01:8000/download_userfile/'+username
-urllib.request.urlretrieve(url,'Userstat_'+username+'.txt')
- 
-file = open('Userstat_'+username+'.txt',"r")
+
+file = open("Userstat.txt","r")
 l=file.readlines()
-uid = l[0][0]
+uid = l[0]
 l1=l[1:]
 print("All of your chosen projects will run one by one")
 print("Projects you have chosen are:")
 ind=1
 for i in l1:
-	print(ind+" - "+i[i.find('-')+1:])
+	print(str(ind)+" - "+i[i.find('-')+1:])
 	ind+=1
 
-chind = input("Choose index of project to start with")
-print("Projects will be run from Project "+chind+" in above order, one by one")
+chind = int(input("Choose index of project to start with"))
+chind-=1
+print("Projects will be run from Project "+str(chind)+" in above order, one by one")
 print("Note, the program will keep running until you close this application")
 #originalsyspath = sys.path
 
@@ -39,10 +29,12 @@ print("Note, the program will keep running until you close this application")
 
 
 while(1>0):
-	for i in range(chind, len(l)):
+	for j in range(chind, len(l1)):
+		i=l1[j]
 		prid=i[:i.find('-')-1]
 
 		sys.path.insert(0, './'+prid+'_files')
+		#print (sys.path)
 		import projman
 		reload(projman)
 		print("Currently doing - "+i[i.find('-')+1:]+" ...")

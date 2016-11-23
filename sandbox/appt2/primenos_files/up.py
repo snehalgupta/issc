@@ -1,50 +1,43 @@
-#from urllib.parse import urlencode
-#from urllib.request import Request, urlopen
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
 import json
 import subprocess
 import time
-import requests
 
 def upload(path_to_files):
 
 	count=0
 	cnfm=True
 	while (count<15):
-		result_file = 'abc.pdf'
 		file = open(path_to_files+"result.txt", "r")
 
 		s=file.read()
 
-		tid=s[:s.find(":")]
+		tid=s[s.find(":")+1:]
 		
 		file.close()
 
-		print("Uploading Results of T Id "+tid+"...")
+		print("Uploading Results of T Id"+tid+"...")
 
 		#url="http://snehalgupta.pythonanywhere.com/done/"+str(tid)+"/"+str(res)
 		url="http://127.0.0.1:8000/done/localmin/"+str(tid)+"/"
 
 		#print(url)
 
-		file1 = {result_file:open(result_file, 'rb')}
-		#a = file1['abc.pdf'].read()
-		#print(str(file1),a)
-		post_fields = {'file': file1 }     # Set POST fields here
+		file = open('result.txt', 'r')
+		a = file.read()
+		print(str(file),a)
+		post_fields = {'file': a }     # Set POST fields here
 
 		try:
-			#url = 'http://httpbin.org/post'
-			#files = {'file': open('report.xls', 'rb')}
 
-			r = requests.post(url, files=file1)
-			print(r.text)
-
-			'''request = Request(url, urlencode(post_fields).encode())
+			request = Request(url, urlencode(post_fields).encode())
 			json1 = urlopen(request).read().decode("utf-8")
-			print(json1)'''
-			D = json.loads(r.text)
+			print(json1)
+			D = json.loads(json1)
 			#print(dict)
 			if (D['conv']=='True'):
-				print("Uploaded Results for T Id - "+tid)
+				print("Uploaded Results for T Id"+tid)
 
 			statfile = open(path_to_files+"projstat.txt", "w+")
 
@@ -55,11 +48,11 @@ def upload(path_to_files):
 			statfile.close()
 			break
 
-		except ValueError:
+		except:
 			print("There seems to be some problem with the connection")
 			print("Please check your connection")
 			print("Retrying......")
-		#	pass
+			pass
 
 		'''obj=urlopen(url)
 		obj2=obj.read()
