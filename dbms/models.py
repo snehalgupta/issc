@@ -25,12 +25,12 @@ class Project(models.Model):
 class UserProfile(models.Model):  
     user = models.OneToOneField(User)  
     #projects=models.ForeignKey("Project", related_name="Users")
-    projects = models.ManyToManyField(Project, blank=True, null=True)
+    projects = models.ManyToManyField(Project, blank=True)
 
     def __str__(self):  
           return "%s's profile" % self.user  
 
-def create_user_profile(sender, instance, created, **kwargs):  
+def create_user_profile(sender, instance, created, **kwargs): 
     if created:  
        profile, created = UserProfile.objects.get_or_create(user=instance)  
 

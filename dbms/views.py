@@ -88,7 +88,7 @@ def GetData(request, tid, res, prid):
 		
 
 def Download(request):
-    zip_file = zipfile.ZipFile('setup_primenos.zip','r')
+    zip_file = open('setup_primenos.zip','r')#zipfile.ZipFile('setup_primenos.zip','r')
     response = HttpResponse(zip_file, content_type='application/force-download')
     response['Content-Disposition'] = 'attachment; filename="%s"' % 'setup_primenos.zip'
     return response
@@ -167,17 +167,26 @@ def user_new(request):
 	return render(request,'./dbms/studentregister.html',{'form':form})
 
 def addproject(request):
-	projectslist=Project.objects.all()
+	u = UserProfile.objects.get(user=request.user)
+	proj = u.projects.all()
+	projectslist = Project.objects.all()
+	#projectlist should have only those projects which are not enrolled in by the user
+	for i in proj:
+		projectslist=projectslist.exclude(projectid=i.projectid)
+	#projectslist=Project.objects.all()#exclude(UserProfile.objects.get(user=request.user).projects)
 	projectid=request.POST.get('dropdown1')
+
 	if request.method == 'GET':
 		form=Projectmgmt()
+
 	else:
-		u=UserProfile.objects.get(user=request.user)
-		a1 = Project.objects.filter(projectid=projectid)[0]
+		#u=UserProfile.objects.get(user=request.user)
+		a1 = Project.objects.get(projectid=projectid)
 		u.projects.add(a1)
-		file1=open('./dbms/userstat.txt','w')
+		uid = request.user.username
+		file1=open('./dbms/userstat_'+uid+'.txt','w')
+		file1.write(str(u.user)+"\n")
 		for project in u.projects.all():
-			file1.write(str(u.user)+"\n")
 			file1.write(project.projectid+"-"+project.project_name+"\n")
 		file1.close()
 		
@@ -186,17 +195,21 @@ def addproject(request):
 	return render(request,'./dbms/projectmgmt.html',{'form':form, 'projectslist':projectslist})
 	
 def delproject(request):
-	projectslist=Project.objects.all()
+	u=UserProfile.objects.get(user=request.user)
+	projectslist=u.projects.all()
 	projectid=request.POST.get('dropdown1')
+
 	if request.method == 'GET':
 		form=Projectmgmt()
+
 	else:
-		u=UserProfile.objects.get(user=request.user)
+		#u=UserProfile.objects.get(user=request.user)
 		a1 = Project.objects.filter(projectid=projectid)[0]
 		u.projects.remove(a1)
-		file1=open('./dbms/userstat.txt','w')
+		uid = request.user.username
+		file1=open('./dbms/userstat_'+uid+'.txt','w')
+		file1.write(str(u.user)+"\n")
 		for project in u.projects.all():
-			file1.write(str(u.user)+"\n")
 			file1.write(project.projectid+"-"+project.project_name+"\n")
 		file1.close()
 		return redirect('home')
@@ -205,8 +218,8 @@ def delproject(request):
 
 
 
-def download_file(request):
-	file1 = open('./dbms/userstat.txt','r')
+def download_userdata(request,uid):
+	file1 = open('./dbms/userstat_'+uid+'.txt','r')
 	response = HttpResponse(file1, content_type='application/force-download')
 	response['Content-Disposition'] = 'attachment; filename="%s"' % './dbms/userstat.txt'
 	return response
