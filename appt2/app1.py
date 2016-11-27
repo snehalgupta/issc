@@ -8,12 +8,24 @@
 username = input("Please enter you username - ")
 
 import sys
-
 import urllib
-
 from importlib import reload
+'''zip = ZipFile('file.zip')
+zip.extractall()'''
 url = 'http://127.0.0.01:8000/download_userfile/'+username
-urllib.request.urlretrieve(url,'Userstat_'+username+'.txt')
+
+obj=urllib.request.urlopen(url)
+			#obj2=obj.read()
+			#obj3=obj2.decode("utf-8")
+
+			#f = urllib2.urlopen(url)
+			data = obj.read()
+			with open(path_to_files+'Userstat_'+username+'.txt', "wb+") as code:
+				code.write(data)
+
+			code.close()
+
+#urllib.request.urlretrieve(url,'Userstat_'+username+'.txt') it's in python2
  
 file = open('Userstat_'+username+'.txt',"r")
 l=file.readlines()

@@ -1,8 +1,7 @@
-4:
-Test result
-file2
-Tid = 4
-Project - localmin
-
-This file contains some test results,
-and should be successfully uploaded to result_4.txt in the root folder of the app.
+56
+56.0 30.0
+57.0 90.0
+59.0 98.0
+60.0 100.0
+67.0 95.0
+70.0 102.0

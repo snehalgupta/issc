@@ -4,7 +4,10 @@ import json
 
 import subprocess
 
+import time
+
 def gettask(path_to_files):
+	i=0
 
 	while(i<10):
 		try:
@@ -12,9 +15,16 @@ def gettask(path_to_files):
 			#url="http://snehalgupta.pythonanywhere.com"
 			url="http://127.0.0.1:8000"
 			#print(url+"/export")
-			obj=urllib.request.urlopen(url+"/export/primenos")
-			obj2=obj.read()
-			obj3=obj2.decode("utf-8")
+			obj=urllib.request.urlopen('http://www.blog.pythonlibrary.org/wp-content/uploads/2012/06/wxDbViewer.zip')#url+"/export/localmin")
+			#obj2=obj.read()
+			#obj3=obj2.decode("utf-8")
+
+			#f = urllib2.urlopen(url)
+			data = obj.read()
+			with open(path_to_files+'name.zip', "wb+") as code:
+				code.write(data)
+
+			obj3 = data[:data.find('}')+1]
 
 			dict = json.loads(obj3)
 			print("Got Taskid - "+dict['taskid'], "Task - "+dict['task'])
@@ -58,3 +68,6 @@ def gettask(path_to_files):
 			i+=1
 			time.sleep(3)
 			pass
+
+if __name__=='__main__':
+	gettask('')

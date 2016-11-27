@@ -10,19 +10,19 @@ def upload(path_to_files):
 	count=0
 	cnfm=True
 	while (count<15):
-		result_file = 'abc.pdf'
+		#result_file = 'abc.pdf'
 		file = open(path_to_files+"result.txt", "r")
 
-		s=file.read()
+		tid=file.readline()
 
-		tid=s[:s.find(":")]
+		#tid=s[:s.find(":")]
 		
 		file.close()
 
 		print("Uploading Results of T Id "+tid+"...")
 
 		#url="http://snehalgupta.pythonanywhere.com/done/"+str(tid)+"/"+str(res)
-		url="http://127.0.0.1:8000/done/localmin/"+str(tid)+"/"
+		url="http://127.0.0.1:8000/done/localmin/"+tid+"/"
 
 		#print(url)
 
