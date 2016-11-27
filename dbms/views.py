@@ -55,15 +55,35 @@ def ExportSubtask(request, prid):
 			response = JsonResponse({'alltasks':'done','prid':prid})
 			return response
 	else:
-		i = subtasks[0]
-		i.status="TA"
-		i.save()
-		t=datetime.datetime.now()
-		time=open('./dbms/time.txt', 'a')
-		time.write(i.projectid+"/"+i.taskid+" -> "+str(t)+'\n')
-		time.close()
-		response = JsonResponse({'prid':str(i.projectid),'taskid':str(i.taskid),'task':str(i.task)})
-		return response
+		subtask = subtasks[0]
+		ptype = Project.objects.get(projectid=subtask.projectid).project_type
+		if (ptype == '1'):
+
+			i = subtask
+			i.status="TA"
+			i.save()
+			t=datetime.datetime.now()
+			time=open('./dbms/time.txt', 'a')
+			time.write(i.projectid+"/"+i.taskid+" -> "+str(t)+'\n')
+			time.close()
+			response = JsonResponse({'prid':str(i.projectid),'taskid':str(i.taskid),'task':str(i.task)})
+			return response
+		elif ptype=='2':
+			i = subtask
+			i.status="TA"
+			i.save()
+			t=datetime.datetime.now()
+			time=open('./dbms/time.txt', 'a')
+			time.write(i.projectid+"/"+i.taskid+" -> "+str(t)+'\n')
+			time.close()
+			file1 = open('./dbms/task_'+i.taskid+'.db','r')
+			response = HttpResponse(file1, content_type='application/force-download')
+			response['Content-Disposition'] = 'attachment; filename="%s"' % 'task_'+str(i.taskid)+'.db'
+			return response
+			#response = JsonResponse({'prid':str(i.projectid),'taskid':str(i.taskid),'task':str(i.task)})
+			#return response
+			
+			
 
 '''def CnfmDelivery(request, tid):
 	deltask=Subtask.objects.filter(taskid=tid)
@@ -87,8 +107,9 @@ def GetData(request, tid, res, prid):
 	return response
 		
 
-def Download(request):
-    zip_file = open('setup_primenos.zip','r')#zipfile.ZipFile('setup_primenos.zip','r')
+def Download(request,prid):
+    pid = prid
+    zip_file = open('setup_'+pid+'.zip','r')#zipfile.ZipFile('setup_primenos.zip','r')
     response = HttpResponse(zip_file, content_type='application/force-download')
     response['Content-Disposition'] = 'attachment; filename="%s"' % 'setup_primenos.zip'
     return response

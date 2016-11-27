@@ -13,7 +13,7 @@ urlpatterns=[
        url(r'^logout/$', auth_views.logout, {'template_name': './dbms/logged_out.html'}, name='logout'),	
        url(r'^export/(?P<prid>\D+)/$',views.ExportSubtask),
        url(r'^done/(?P<prid>\D+)/(?P<tid>\d+)/(?P<res>\d+)/$',views.GetData),#urls for projects of type 1
-       url(r'^download/',views.Download),
+       url(r'^download/(?P<prid>\D+)',views.Download),
        url(r'^igot/(?P<prid>\D+)/(?P<tid>\d+)/$',views.Change),
        #url(r'^projectmgmt',ProjectM.as_view(),name='projectmgmt'),
        url(r'^addproject',views.addproject,name='addproject'),
