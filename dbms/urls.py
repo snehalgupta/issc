@@ -4,6 +4,7 @@ from . import views,models
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
 from .models import UserProfile
+from django.views.decorators.csrf import csrf_exempt
 
 
 urlpatterns=[
@@ -18,6 +19,7 @@ urlpatterns=[
        #url(r'^projectmgmt',ProjectM.as_view(),name='projectmgmt'),
        url(r'^addproject',views.addproject,name='addproject'),
        url(r'^delproject',views.delproject,name='delproject'),
-       url(r'^download_userfile/(?P<uid>[a-zA-Z0-9@.+-_]+)/$',views.download_userdata,name='download_file')
+       url(r'^download_userfile/(?P<uid>[a-zA-Z0-9@.+-_]+)/$',views.download_userdata,name='download_file'),
+       url(r'^done/(?P<prid>\D+)/(?P<tid>\d+)/$',csrf_exempt(views.GetFile))
        
 ]

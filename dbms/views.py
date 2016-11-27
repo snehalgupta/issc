@@ -68,7 +68,7 @@ def ExportSubtask(request, prid):
 			time.close()
 			response = JsonResponse({'prid':str(i.projectid),'taskid':str(i.taskid),'task':str(i.task)})
 			return response
-		elif ptype=='2':
+		elif (ptype=='2'):
 			i = subtask
 			i.status="TA"
 			i.save()
@@ -111,7 +111,7 @@ def Download(request,prid):
     pid = prid
     zip_file = open('setup_'+pid+'.zip','r')#zipfile.ZipFile('setup_primenos.zip','r')
     response = HttpResponse(zip_file, content_type='application/force-download')
-    response['Content-Disposition'] = 'attachment; filename="%s"' % 'setup_primenos.zip'
+    response['Content-Disposition'] = 'attachment; filename="%s"' % 'setup_'+pid+'primenos.zip'
     return response
 
 
@@ -244,5 +244,26 @@ def download_userdata(request,uid):
 	response = HttpResponse(file1, content_type='application/force-download')
 	response['Content-Disposition'] = 'attachment; filename="%s"' % "userstat_"+str(uid)+'.txt'
 	return response
+
+def GetFile(request,prid,tid):
+	entrytid=tid
+	if request.method=='POST':
+		filename = request.FILES.keys()[0]
+		received_file = request.FILES[filename]
+		with open("./Projectfiles/"+received_file.name, 'w+') as new_file:
+			new_file.write(received_file.read())
+
+		'''file = request.POST#['file']
+		file1 = open('result_'+tid+'.txt','w+')
+		#file1.write(str(file))
+		file1.write(file['file'])#.decode("utf-8").decode("utf-8"))
+		response = JsonResponse({'tid':str(entrytid),'conv':'True'})
+		return response
+		#return HttpResponse(str(file))
+		#file1 = open('wtest.txt','w')
+		#file1.write(file)'''
+		#return HttpResponse("sweet")
+		response = JsonResponse({'tid':str(entrytid),'conv':'True'})
+		return response
 
 
