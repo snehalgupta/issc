@@ -1,3 +1,3 @@
-snehal10
+cosmopal
 primenos-Prime Numbers
 localmin-Local minimum

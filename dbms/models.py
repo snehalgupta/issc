@@ -9,7 +9,7 @@ class Subtask(models.Model):
       taskid=models.CharField(max_length=20)
       status=models.CharField(max_length=20)
       task=models.CharField(max_length=10)
-      result=models.CharField(max_length=10, default='0')   
+      result=models.CharField(max_length=100, default='0')   
       def __str__(self):
           return self.taskid
 class Project(models.Model):

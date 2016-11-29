@@ -1,3 +1,0 @@
-user5
-primenos-Prime Numbers
-localmin-Local minimum

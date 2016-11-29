@@ -1,4 +1,0 @@
-Test text
-Hi newline
-
-Hi snehal!
