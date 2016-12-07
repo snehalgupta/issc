@@ -19,7 +19,7 @@ from django.contrib import admin
 #test change in code
 urlpatterns=[
        url(r'^admin/',admin.site.urls),
-       url(r'',include('dbms.urls'))
-       
-       
+       url(r'^',include('dbms.urls'))
+
+
 ]

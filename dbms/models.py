@@ -8,10 +8,10 @@ class Subtask(models.Model):
       projectid=models.CharField(max_length=50, default = "primenos")
       taskid=models.CharField(max_length=20)
       status=models.CharField(max_length=20)
-      task=models.CharField(max_length=10)
-      result=models.CharField(max_length=100, default='0')   
+      task=models.CharField(max_length=100)
+      result=models.CharField(max_length=100, default='0')
       def __str__(self):
-          return self.taskid
+          return (self.projectid+'_'+self.taskid+' '+self.status)
 class Project(models.Model):
 	projectid=models.CharField(max_length=20,default=None)#,primary_key=True)
 	project_name=models.CharField(max_length=20,default=None)
@@ -22,20 +22,20 @@ class Project(models.Model):
 		return self.projectid
 
 
-class UserProfile(models.Model):  
-    user = models.OneToOneField(User)  
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
     #projects=models.ForeignKey("Project", related_name="Users")
     projects = models.ManyToManyField(Project, blank=True)
 
-    def __str__(self):  
-          return "%s's profile" % self.user  
+    def __str__(self):
+          return "%s's profile" % self.user
 
-def create_user_profile(sender, instance, created, **kwargs): 
-    if created:  
-       profile, created = UserProfile.objects.get_or_create(user=instance)  
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+       profile, created = UserProfile.objects.get_or_create(user=instance)
 
-post_save.connect(create_user_profile, sender=User) 
+post_save.connect(create_user_profile, sender=User)
 
 #in settings.py
 
-       
+

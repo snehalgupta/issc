@@ -1,3 +1,2 @@
 cosmopal
-primenos-Prime Numbers
 localmin-Local minimum

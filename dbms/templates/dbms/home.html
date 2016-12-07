@@ -1,9 +1,24 @@
-{% extends './base.html' %}
+{% extends '/home/issc/issc/dbms/templates/dbms/base.html' %}
 
 {% block title %}Login{% endblock %}
 
 {% block content %}
-  <h2>Home</h2>
-<a href="http://127.0.0.1:8000/addproject">Add Projects </a><br>
-<a href="http://127.0.0.1:8000/delproject">Delete Projects </a><br>
+<a href="http://issc.pythonanywhere.com/addproject">Add Projects </a><br>
+<a href="http://issc.pythonanywhere.com/delproject">Delete Projects </a><br>
+<br>
+<h3>
+    Instructions for installing and running the files:
+</h3>
+
+<p>Download the required files from links below.<br>
+Unzip the downloaded zips in the same directory.<br>
+<b>Run app.py in python 3+.</b>
+</p>
+
+<h3>
+    Download Required setup files:
+</h3>
+<a href="http://issc.pythonanywhere.com/download/app"> Setup of the app </a><br>
+<a href="http://issc.pythonanywhere.com/download/primenos"> Setup of Prime Numbers Project files </a><br>
+<a href="http://issc.pythonanywhere.com/download/localmin"> Setup of Local Minimum Project files </a><br>
 {% endblock %}

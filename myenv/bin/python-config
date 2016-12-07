@@ -1,4 +1,4 @@
-#!/home/cosmopal/issc/myenv/bin/python
+#!/home/issc/issc/myenv/bin/python
 
 import sys
 import getopt

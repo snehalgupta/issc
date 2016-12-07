@@ -1,4 +1,4 @@
-#!/home/cosmopal/issc/myenv/bin/python2
+#!/home/issc/issc/myenv/bin/python3.5
 from django.core import management
 
 if __name__ == "__main__":

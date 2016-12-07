@@ -10,8 +10,10 @@ from django.views.generic import FormView
 from .forms import UserForm,Projectmgmt
 from django.contrib.auth.models import User
 
+path='/home/issc/issc/'
+
 def allot_time():
-	file = open('./dbms/time.txt', 'r')
+	file = open(path+'dbms/time.txt', 'r')
 	l=file.readlines()
 	now = datetime.datetime.now()
 	c=[]
@@ -33,7 +35,7 @@ def allot_time():
 	for z in c:
 		l.pop(z-indcompen)
 		indcompen+=1
-	file=open('./dbms/time.txt', 'w')
+	file=open(path+'dbms/time.txt', 'w')
 	for a in l:
 		file.write(a)
 	file.close()
@@ -41,13 +43,13 @@ def allot_time():
 # Create your views here.
 def ExportSubtask(request, prid):
 	pid = prid
-	subtasks = Subtask.objects.filter(projectid=str(pid), status='NA')
+	subtasks = Subtask.objects.filter(projectid=str(pid)).filter(status='NA')
 	if len(subtasks)==0:
 		allot_time()
-		subtasks = Subtask.objects.filter(projectid=str(pid), status='NA')
+		subtasks = Subtask.objects.filter(projectid=str(pid)).filter(status='NA')
 
 	if len(subtasks)==0:
-		subtaskta = Subtask.objects.filter(projectid=str(pid), status='TA')
+		subtaskta = Subtask.objects.filter(projectid=str(pid)).filter(status='TA')
 		if len(subtaskta)>0:
 			response = JsonResponse({'check after':'60 seconds','prid':prid})
 			return response
@@ -63,7 +65,7 @@ def ExportSubtask(request, prid):
 			i.status="TA"
 			i.save()
 			t=datetime.datetime.now()
-			time=open('./dbms/time.txt', 'a')
+			time=open(path+'dbms/time.txt', 'a')
 			time.write(i.projectid+"/"+i.taskid+" -> "+str(t)+'\n')
 			time.close()
 			response = JsonResponse({'prid':str(i.projectid),'taskid':str(i.taskid),'task':str(i.task)})
@@ -73,12 +75,12 @@ def ExportSubtask(request, prid):
 			i.status="TA"
 			i.save()
 			t=datetime.datetime.now()
-			time=open('./dbms/time.txt', 'a')
+			time=open(path+'dbms/time.txt', 'a')
 			time.write(i.projectid+"/"+i.taskid+" -> "+str(t)+'\n')
 			time.close()
-			file1 = open('./'+pid+'_datafiles/task_'+i.taskid+'.db','r')
+			file1 = open(path+pid+'_datafiles/task_'+i.taskid+'.db','rb')
 			response = HttpResponse(file1, content_type='application/force-download')
-			response['Content-Disposition'] = 'attachment; filename="%s"' % 'task_'+str(i.taskid)+'.db'
+			response['Content-Disposition'] = 'attachment; filename="%s"' % ('task_'+str(i.taskid)+'.db')
 			return response
 
 
@@ -93,13 +95,13 @@ def GetData(request, tid, res, prid):
 	entry.save()
 	response = JsonResponse({'tid':str(entrytid),'conv':'True'})
 	return response
-		
+
 
 def Download(request,prid):
     pid = prid
-    zip_file = open('setup_'+pid+'.zip','r')#zipfile.ZipFile('setup_primenos.zip','r')
+    zip_file = open((path+'setup_'+pid+'.zip'),'rb')#zipfile.ZipFile('setup_primenos.zip','r')
     response = HttpResponse(zip_file, content_type='application/force-download')
-    response['Content-Disposition'] = 'attachment; filename="%s"' % 'setup_'+pid+'primenos.zip'
+    response['Content-Disposition'] = 'attachment; filename="%s"' % ('setup_'+pid+'.zip')
     return response
 
 
@@ -110,22 +112,23 @@ def Change(request, prid, tid):
 	subtasks=list(Subtask.objects.filter(projectid=pid, taskid=id))
 	i=subtasks[0]
 	i.status='A'
-	l=open('./dbms/time.txt', 'r')
+	l=open(path+'dbms/time.txt', 'r')
 	m=l.readlines()
 	l.close()
-	'''l=open('./dbms/time.txt', 'w')
+	'''l=open(path+'dbms/time.txt', 'w')
 	l.close()'''
 	for j in range(len(m)):
 		if (prid+'/'+tid) in m[j]:
 			m.pop(j)
 			break
 
-	file=open('./dbms/time.txt', 'w')
+	file=open(path+'dbms/time.txt', 'w')
 	for a in m:
 		file.write(a)
 	file.close()
 	i.save()
-
+	response = HttpResponse("Ok, go on!")
+	return response
 
 def user_new(request):
 	if request.method=="POST":
@@ -136,6 +139,7 @@ def user_new(request):
 			password=form.cleaned_data['password']
 			email=form.cleaned_data['email']
 			user.set_password(password)
+			user.email=email
 			user.save()
 			user=authenticate(username=username,password=password)
 			if user is not None:
@@ -144,7 +148,7 @@ def user_new(request):
 					return redirect('home')
 	else:
 		form=UserForm()
-	return render(request,'./dbms/studentregister.html',{'form':form})
+	return render(request,path+'dbms/templates/dbms/studentregister.html',{'form':form})
 
 def addproject(request):
 	u = UserProfile.objects.get(user=request.user)
@@ -153,27 +157,27 @@ def addproject(request):
 	#projectlist should have only those projects which are not enrolled in by the user
 	for i in proj:
 		projectslist=projectslist.exclude(projectid=i.projectid)
-	
+
 	projectid=request.POST.get('dropdown1')
 
 	if request.method == 'GET':
 		form=Projectmgmt()
 
 	else:
-		
+
 		a1 = Project.objects.get(projectid=projectid)
 		u.projects.add(a1)
 		uid = request.user.username
-		file1=open('./dbms/userstat_'+uid+'.txt','w')
+		file1=open(path+'dbms/userstat_'+uid+'.txt','w')
 		file1.write(str(u.user)+"\n")
 		for project in u.projects.all():
 			file1.write(project.projectid+"-"+project.project_name+"\n")
 		file1.close()
-		
+
 		return redirect('home')
-		
-	return render(request,'./dbms/projectmgmt.html',{'form':form, 'projectslist':projectslist})
-	
+
+	return render(request,path+'dbms/templates/dbms/projectmgmt.html',{'form':form, 'projectslist':projectslist})
+
 def delproject(request):
 	u=UserProfile.objects.get(user=request.user)
 	projectslist=u.projects.all()
@@ -183,23 +187,23 @@ def delproject(request):
 		form=Projectmgmt()
 
 	else:
-		
+
 		a1 = Project.objects.filter(projectid=projectid)[0]
 		u.projects.remove(a1)
 		uid = request.user.username
-		file1=open('./dbms/userstat_'+uid+'.txt','w')
+		file1=open(path+'dbms/userstat_'+uid+'.txt','w')
 		file1.write(str(u.user)+"\n")
 		for project in u.projects.all():
 			file1.write(project.projectid+"-"+project.project_name+"\n")
 		file1.close()
 		return redirect('home')
-	return render(request,'./dbms/projectmgmt1.html',{'form':form, 'projectslist':projectslist})
-	
+	return render(request,path+'dbms/templates/dbms/projectmgmt1.html',{'form':form, 'projectslist':projectslist})
+
 
 
 
 def download_userdata(request,uid):
-	file1 = open('./dbms/userstat_'+uid+'.txt','r')
+	file1 = open(path+'dbms/userstat_'+uid+'.txt','r')
 	response = HttpResponse(file1, content_type='application/force-download')
 	response['Content-Disposition'] = 'attachment; filename="%s"' % "userstat_"+str(uid)+'.txt'
 	return response
@@ -208,11 +212,11 @@ def GetFile(request,prid,tid):
 	entrytid=tid
 	entrypid=prid
 	if request.method=='POST':
-		filename = request.FILES.keys()[0]
+		filename = list(request.FILES.keys())[0]
 		received_file = request.FILES[filename]
-		with open("./"+prid+'_datafiles/result_'+entrytid+'.txt', 'w+') as new_file:
+		with open(path+prid+'_datafiles/result_'+entrytid+'.txt', 'wb+') as new_file:
 			new_file.write(received_file.read())
-		
+
 		s = Subtask.objects.filter(projectid=prid).get(taskid=tid)
 		s.status='C'
 		s.result=prid+'_datafiles/result_'+entrytid+'.txt'

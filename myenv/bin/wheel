@@ -1,4 +1,4 @@
-#!/home/cosmopal/issc/myenv/bin/python2
+#!/home/issc/issc/myenv/bin/python3.5
 
 # -*- coding: utf-8 -*-
 import re
