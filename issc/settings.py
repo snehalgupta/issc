@@ -25,7 +25,7 @@ SECRET_KEY = 'koqhld@3o4-5tjlnfxxuq320shlip+kn#y290n!opwtm%=4*!s'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['issc.pythonanywhere.com']
+ALLOWED_HOSTS = ['issc.pythonanywhere.com','127.0.0.1']
 LOGIN_REDIRECT_URL = 'home'
 AUTH_PROFILE_MODULE = 'dbms.UserProfile'
 

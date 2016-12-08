@@ -6,7 +6,7 @@ from django.views.generic.base import TemplateView
 from .models import UserProfile
 from django.views.decorators.csrf import csrf_exempt
 
-path='/home/issc/issc/dbms/templates'
+path='.'
 urlpatterns=[
        url(r'^register',views.user_new,name='register'),
        url(r'^$', TemplateView.as_view(template_name=path+'/dbms/home.html'), name='home'),

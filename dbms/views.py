@@ -10,7 +10,7 @@ from django.views.generic import FormView
 from .forms import UserForm,Projectmgmt
 from django.contrib.auth.models import User
 
-path='/home/issc/issc/'
+path='./'
 
 def allot_time():
 	file = open(path+'dbms/time.txt', 'r')
